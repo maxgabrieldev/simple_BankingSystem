@@ -9,45 +9,54 @@ menu = '''
 => Escolha uma opção: '''
 
 saldo = 0
-limite_saque = 500
-extrato = []
+limite = 500
+extrato = "Extrato: \n"
 numero_saques = 0
 LIMITE_QUANTIDADE_SAQUE = 3
 
 
 while True:
+    
     opcao = input(menu)
-    if opcao == 'q':
+    
+    if opcao == 'd':
+        valor = float(input('Valor do depósito: '))
+        
+        if valor > 0:
+            saldo += valor
+            extrato += f'Depósito: {valor:.2f} \n'
+            print('Depósito realizado com sucesso!')
+        else:
+            print('Valor inválido!')
+            
+    elif opcao == 's':
+        valor = float(input('Valor do saque: '))
+        
+        excedeu_saldo = valor > saldo
+        excedeu_limite = valor > limite 
+        excedeu_saque = numero_saques >= LIMITE_QUANTIDADE_SAQUE
+        
+        if excedeu_saldo:
+            print('Saldo insuficiente!')
+        elif excedeu_limite:
+            print('Limite excedido!')
+        elif excedeu_saque:
+            print('Limite de saques excedido!')
+        elif valor > 0:
+            saldo -= valor
+            extrato += f'Saque: {valor:.2f} \n'
+            numero_saques += 1
+            print('Saque realizado com sucesso!')
+             
+    elif opcao == 'e':
+        print('\n========== Extrato ==========')
+        print('Não há lançamentos no extrato' if not extrato else extrato)
+        print(f'Saldo: {saldo:.2f}')
+        print('=============================\n')
+
+    elif opcao == 'q':
         print('Saindo...')
         break
-    elif opcao == 'd':
-        valor = float(input('Digite o valor a ser depositado: '))
-        saldo += valor
-        extrato.append(['Depósito', valor])
-        print('Depósito efetuado com sucesso!')
-    elif opcao == 's':
-        valor = float(input('Digite o valor a ser sacado: '))
-        if valor > saldo:
-            print('Saldo insuficiente!')
-        elif valor > limite_saque:
-            print('Limite de saque excedido!')
-        elif numero_saques >= LIMITE_QUANTIDADE_SAQUE:
-            print('Limite de saques diários excedido!')
-        else:
-            saldo -= valor
-            limite_saque -= valor
-            extrato.append(['Saque', valor])
-            numero_saques += 1
-            print('Saque efetuado com sucesso!')
-    elif opcao == 'e':
-        print('Extrato')
-        print('=======')
-        print('Tipo\tValor')
-        for tipo, valor in extrato:
-            print(f'{tipo}\t{valor}')
-        print('=======')
-        print(f'Saldo: {saldo}')
+    
     else:
         print('Opção inválida!')
-
-

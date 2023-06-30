@@ -1,6 +1,3 @@
-#Sistema bancário
-import os
-
 menu = '''      
     Max's Virtual Bank
     
